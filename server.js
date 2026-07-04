@@ -34,8 +34,6 @@ app.post("/api/v1/translate", async (req,res) => {
         role: "user",
         ...userMessage
     }
-
-    console.log(userMessage);
     const messages = [...initMessage, userData];
 
     try{
