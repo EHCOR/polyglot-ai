@@ -29,8 +29,14 @@ const initMessage = [
 //Translations endpoint
 app.post("/api/v1/translate", async (req,res) => {
     //get message from req
-    const {userMessage} = req.body;
-    const messages = [...initMessage, userMessage];
+    const userMessage = req.body;
+    const userData = {
+        role: "user",
+        ...userMessage
+    }
+
+    console.log(userMessage);
+    const messages = [...initMessage, userData];
 
     try{
         //send to model
