@@ -5,9 +5,11 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node --env-file=.env server.js"
   },
   "dependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.1.4",
     "dompurify": "^3.4.11",
     "express": "^5.2.1",
     "marked": "^18.0.5",
