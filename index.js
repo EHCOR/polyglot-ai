@@ -24,7 +24,7 @@ async function handleSubmit(e) {
     }
    
     //send prompt to backend
-    let loading = true;
+    loading = true;
    
     const payload = {
         content: userPrompt,
@@ -38,14 +38,13 @@ async function handleSubmit(e) {
             },
             body: JSON.stringify(payload),
         })
-        const data = response.json();
+        const data = await response.json();
 
         if (!response.ok){
             throw new Error(data.message);
         }
-        console.log(data);
-
-    
+        
+        outputText.value = data;
 
     } catch (error) {
         outputText.value = "An Error has occurred!"
