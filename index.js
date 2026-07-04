@@ -6,6 +6,7 @@ import DOMPurify from "dompurify";
 const submitBtn = document.getElementById("user-submit-btn");
 const userInputText = document.getElementById("user-input-text");
 const outputText = document.getElementById("output-content-area");
+const responseArea = document.getElementById("response-area");
 
 //states
 let loading = false;
@@ -24,8 +25,9 @@ async function handleSubmit(e) {
     }
    
     //send prompt to backend
-    loading = true;
-   
+    setLoading(true);
+    responseArea.classList.remove("hidden");
+
     const payload = {
         content: userPrompt,
     }
@@ -43,7 +45,7 @@ async function handleSubmit(e) {
         if (!response.ok){
             throw new Error(data.message);
         }
-        
+
         outputText.value = data;
 
     } catch (error) {
@@ -51,7 +53,16 @@ async function handleSubmit(e) {
         console.log(error);
     }
     finally{
-        loading = false;
+        setLoading(false);
+    }
+}
+
+function setLoading(isLoading) {
+    loading = isLoading;
+    submitBtn.disabled = isLoading;
+    submitBtn.textContent = isLoading ? "Translating…" : "Submit";
+    if (isLoading) {
+        outputText.value = "Translating…";
     }
 
 }
