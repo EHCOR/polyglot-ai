@@ -122,6 +122,8 @@ h1 {
     border-radius: 8px;
     resize: vertical;
     outline: none;
+    pointer-events: none;
+    user-select: none;
 }
 
 #output-content-area:focus {
