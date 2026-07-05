@@ -5,6 +5,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
+    "devServer": "node --env-file=.env server.js",
     "build": "vite build",
     "preview": "vite preview",
     "server": "npm run build && node --env-file=.env server.js"
