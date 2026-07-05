@@ -5,13 +5,14 @@ Basic Vite, Express, JS, HTMl, CSS project
 # Getting Started
 Create your .env
 ```
-AI_MODEL=your selected model
+ONNX_MODEL=your selected model
 PORT=backend port
 NODE_ENV=production or development
 ```
 
 Install the dependencies and run the project
 ```
-npm install
-npm start & npm run server (need both up)
+npm install,
+npm run build,
+npm run server
 ```

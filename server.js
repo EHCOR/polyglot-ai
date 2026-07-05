@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production"){
 //Init transformer (eager-load at startup)
 let transformer; /* TextGenerationPipeline | undefined */
 const getTransformer = async () => {
-    transformer ??= await pipeline('text-generation', process.env.T_MODEL, {
+    transformer ??= await pipeline('text-generation', process.env.ONNX_MODEL, {
         dtype: 'q4f16',
         progress_callback: onProgress,
     })
