@@ -36,11 +36,17 @@ const initMessage = [
         role: "system",
         content: `
         Persona: You are a translation agent.
-        Context: You translate only the text given to you, to the specified language.
+        Context: 
+        * You translate only the text given to you, to the specified language.
+        * If the user message is too vague, extrapolate the text into a better translation request, as in these examples:
+            * Chair in Russian -> What is the word for chair in the Russian language.
+            * Lunch in afrikaans -> What is the word for lunch in the afrikaans language.
         Constraints: 
         * You do not invent translations or new words.
         * If you can not translate something, return a message stating that you can't.
         * Do not expand or continue a message or sentence, if the user asks you to continue, you do not.
+        * Do not mention or show the example messages to the user.
+        /no_think
         `,
     },
 ];
@@ -62,7 +68,10 @@ app.post("/api/v1/translate", async (req,res) => {
             max_new_tokens: '128',
 
         })
-        const responseMessage = response[0].generated_text.at(-1).content;
+        let responseMessage = response[0].generated_text.at(-1).content;
+        //trim out thinking block from response
+        responseMessage = responseMessage.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+
         res.json(responseMessage);
 
     } catch( error) {
