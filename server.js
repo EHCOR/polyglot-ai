@@ -1,9 +1,16 @@
 import e from "express";
 import express from "express";
 import OpenAI from "openai";
+import helmet from "helmet";
 
+//init express
 const app = express();
 app.use(express.json());
+const PORT = process.env.PORT || 3000;
+//prod hardening
+if (process.env.NODE+ENV === "production"){
+    app.use(helmet()); 
+    }
 
 //Init openAI client
 const openai = new OpenAI({
@@ -52,8 +59,6 @@ app.post("/api/v1/translate", async (req,res) => {
     }
 });
 
-//init express
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 })

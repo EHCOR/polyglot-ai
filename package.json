@@ -12,6 +12,7 @@
     "@rolldown/binding-win32-x64-msvc": "^1.1.4",
     "dompurify": "^3.4.11",
     "express": "^5.2.1",
+    "helmet": "^8.2.0",
     "marked": "^18.0.5",
     "openai": "^6.45.0",
     "vite": "latest"
