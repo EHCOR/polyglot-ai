@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 //prod hardening
-if (process.env.NODE+ENV === "production"){
+if (process.env.NODE_ENV === "production"){
     app.use(helmet()); 
     }
 
