@@ -7,7 +7,7 @@ Built with Vite, Express, JS, HTML and CSS
 - Node.js 18+
 - npm
 
-# Setup
+## Setup
 Create an .env in the project root with the following:
 
 | Variable | Description                                                                                          |
