@@ -63,6 +63,13 @@ app.post("/api/v1/translate", async (req,res) => {
     }
 });
 
+//health endpoint
+app.get("/health", (req,res) => {
+    res.json({
+        status: "OK",
+    })
+})
+
 //serve static frontend from express
 app.use(express.static(path.join(dirPath, "/dist")));
 
