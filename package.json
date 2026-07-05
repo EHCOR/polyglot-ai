@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "node --env-file=.env server.js"
+    "server": "npm run build && node --env-file=.env server.js"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",

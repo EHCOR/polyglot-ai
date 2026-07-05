@@ -27,7 +27,6 @@ NODE_ENV=production
 Install the dependencies and run the project
 ````bash
 npm install
-npm run build
 npm run server
 ````
 App will be served to your selected port on local, ie:`http://localhost:3000`
