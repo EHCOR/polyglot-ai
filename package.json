@@ -9,7 +9,6 @@
     "server": "node --env-file=.env server.js"
   },
   "dependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.1.4",
     "dompurify": "^3.4.11",
     "express": "^5.2.1",
     "helmet": "^8.2.0",
