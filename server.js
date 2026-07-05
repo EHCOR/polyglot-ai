@@ -76,3 +76,11 @@ app.use(express.static(path.join(dirPath, "/dist")));
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 })
+
+//Handle signals
+function handleShutdown() {
+    console.log("Terminating");
+    process.exit(0);
+}
+process.on('SIGTERM',handleShutdown)
+process.on('SIGINT', handleShutdown)
