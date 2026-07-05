@@ -9,6 +9,7 @@ AI_KEY=Your API Key
 AI_URL=URL to your provider (must support responses API)
 AI_MODEL=your_model
 PORT=backend port
+NODE_ENV=production or development
 ```
 
 Install the dependencies and run the project
