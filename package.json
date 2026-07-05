@@ -1,6 +1,7 @@
 {
   "name": "polygot",
   "description": "Demo project to implement ai generated translations",
+  "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
