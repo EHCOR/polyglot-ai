@@ -1,11 +1,16 @@
 import express from "express";
 import OpenAI from "openai";
 import helmet from "helmet";
+import path from "path";
+import {fileURLToPath} from "url";
 
 //init express
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
+const filePath = fileURLToPath(import.meta.url);
+const dirPath = path.dirname(filePath);
+
 //prod hardening
 if (process.env.NODE_ENV === "production"){
     app.use(helmet()); 
@@ -57,6 +62,9 @@ app.post("/api/v1/translate", async (req,res) => {
         res.status(500).json({message: "Internal server error :("});
     }
 });
+
+//serve static frontend from express
+app.use(express.static(path.join(dirPath, "/dist")));
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
