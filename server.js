@@ -1,6 +1,6 @@
 import express from "express";
-import OpenAI from "openai";
 import helmet from "helmet";
+import {pipeline} from "@huggingface/transformers";
 import path from "path";
 import {fileURLToPath} from "url";
 
@@ -16,12 +16,21 @@ if (process.env.NODE_ENV === "production"){
     app.use(helmet()); 
     }
 
-//Init openAI client
-const openai = new OpenAI({
-    apiKey: process.env.AI_KEY,
-    baseURL: process.env.AI_URL,
-});
+//Init transformer (lazy-load)
+let transformer; /* TextGenerationPipeline | undefined */
+const getTransformer = async () => {
+    transformer ??= await pipeline('text-generation', process.env.T_MODEL, {
+        dtype: 'q4f16',
 
+        progress_callback: onProgress,
+    })
+    return transformer;
+}
+
+//handle status
+function onProgress(p){
+    console.log(p);
+}
 //Init messages array with system prompt
 const initMessage = [
     {
@@ -47,15 +56,15 @@ app.post("/api/v1/translate", async (req,res) => {
     }
     const messages = [...initMessage, userData];
 
-    try{
+    try {
         //send to model
-        const response = await openai.responses.create({
-            model: process.env.AI_MODEL,
-            input: messages,
+        const instance = await getTransformer();
+        const response = await instance(messages, {
+            max_new_tokens: '128',
         })
-
-    const responseMessage = response.output_text;
-    res.json(responseMessage);
+        console.log(response)
+        const responseMessage = response[0].generated_text.at(-1).content;
+        res.json(responseMessage);
 
     } catch( error) {
         console.error(error);
@@ -75,12 +84,12 @@ app.use(express.static(path.join(dirPath, "/dist")));
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
-})
+});
 
 //Handle signals
 function handleShutdown() {
     console.log("Terminating");
     process.exit(0);
 }
-process.on('SIGTERM',handleShutdown)
-process.on('SIGINT', handleShutdown)
+process.on('SIGTERM',handleShutdown);
+process.on('SIGINT', handleShutdown);
