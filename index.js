@@ -1,11 +1,11 @@
 //front
-import { marked } from "marked";
+import {marked} from "marked";
 import DOMPurify from "dompurify";
 
 //get UI elems
 const submitBtn = document.getElementById("user-submit-btn");
 const userInputText = document.getElementById("user-input-text");
-const outputText = document.getElementById("output-content-area");
+const responseContent = document.getElementById("response-content");
 const responseArea = document.getElementById("response-area");
 
 //states
@@ -17,6 +17,9 @@ function start() {
 
 async function handleSubmit(e) {
     e.preventDefault();
+    //clear area
+    responseContent.innerHTML = "";
+
     //get and confirm valid user prompt
     const userPrompt = userInputText.value.trim();
 
@@ -45,11 +48,10 @@ async function handleSubmit(e) {
         if (!response.ok){
             throw new Error(data.message);
         }
-
-        outputText.value = data;
+        responseContent.innerHTML = DOMPurify.sanitize(marked.parse(data,{async: false}));
 
     } catch (error) {
-        outputText.value = "An Error has occurred!"
+        responseContent.innerHTML = "<p>An Error has occurred!</p>"
         console.log(error);
     }
     finally{
@@ -58,14 +60,8 @@ async function handleSubmit(e) {
 }
 
 function setLoading(isLoading) {
-    loading = isLoading;
     submitBtn.disabled = isLoading;
     submitBtn.textContent = isLoading ? "Translating…" : "Submit";
-    if (isLoading) {
-        outputText.value = "Translating…";
-    }
-
 }
-
 
 start();
