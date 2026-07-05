@@ -16,12 +16,11 @@ if (process.env.NODE_ENV === "production"){
     app.use(helmet()); 
     }
 
-//Init transformer (lazy-load)
+//Init transformer (eager-load at startup)
 let transformer; /* TextGenerationPipeline | undefined */
 const getTransformer = async () => {
     transformer ??= await pipeline('text-generation', process.env.T_MODEL, {
         dtype: 'q4f16',
-
         progress_callback: onProgress,
     })
     return transformer;
@@ -61,8 +60,8 @@ app.post("/api/v1/translate", async (req,res) => {
         const instance = await getTransformer();
         const response = await instance(messages, {
             max_new_tokens: '128',
+
         })
-        console.log(response)
         const responseMessage = response[0].generated_text.at(-1).content;
         res.json(responseMessage);
 
@@ -82,8 +81,11 @@ app.get("/health", (req,res) => {
 //serve static frontend from express
 app.use(express.static(path.join(dirPath, "/dist")));
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+//load model before up
+getTransformer().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
 });
 
 //Handle signals
