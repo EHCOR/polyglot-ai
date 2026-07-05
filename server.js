@@ -28,7 +28,9 @@ const getTransformer = async () => {
 
 //handle status
 function onProgress(p){
-    console.log(p);
+    if (process.env.NODE_ENV !== "production"){
+        console.log(p);
+    }
 }
 //Init messages array with system prompt
 const initMessage = [
