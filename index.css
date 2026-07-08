@@ -109,25 +109,8 @@ h1 {
     margin-top: 1.75rem;
 }
 
-#output-content-area {
-    width: 100%;
-    min-height: 180px;
-    padding: 1rem;
-    font-family: var(--font);
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--text);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    resize: vertical;
-    outline: none;
-    pointer-events: none;
-    user-select: none;
-}
-
-#output-content-area:focus {
-    border-color: var(--accent);
+#response-content{
+    padding-left: 1rem;
 }
 
 .hidden {
